@@ -1,6 +1,6 @@
 <h1 align="center"> weather </h1>
 
-<p align="center"> 获取天气预报SDK.</p>
+<p align="center"> 基于高德开放API获取天气预报SDK.</p>
 
 * crackersw/weater
 
