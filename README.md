@@ -21,7 +21,7 @@ $weather = new Weather($key);
 ### 获取实时天气
 
 ```php
-$response = $weather->getWeather("无锡");
+$response = $weather->getLiveWeather("无锡");
 ```
 返回示例
 
@@ -48,7 +48,7 @@ $response = $weather->getWeather("无锡");
 ```
 ### 获取近期天气预报
 ```php
-$response = $weather->getWeather("无锡","all");
+$response = $weather->getForecastsWeather("无锡");
 ```
 
 返回示例
@@ -122,7 +122,7 @@ $response = $weather->getWeather("无锡","all");
 ### 获取XML格式返回值
 第三个参数为返回值类型，可选`json`与`xml`，默认`json`:
 ```php
-$response = $weather->getWeather("无锡","all","xml");
+$response = $weather->getLiveWeather("无锡","xml");
 ```
 返回示例
 
@@ -179,7 +179,7 @@ WEATHER_API_KEY=xxxxxxxxxxxxxxxxxxxxx
     .
     public function getWeather(Weather $weather) 
     {
-        $response = $weather->getWeather('无锡');
+        $response = $weather->getLiveWeather('无锡');
     }
     .
     .
@@ -194,7 +194,7 @@ WEATHER_API_KEY=xxxxxxxxxxxxxxxxxxxxx
     .
     public function getWeather(Weather $weather) 
     {
-        $response = app('weather')->getWeather('无锡');
+        $response = app('weather')->getLiveWeather('无锡');
     }
     .
     .
