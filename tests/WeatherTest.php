@@ -6,7 +6,7 @@ namespace CrackerSw\Weather\Tests;
 
 use CrackerSw\Weather\Exceptions\HttpException;
 use CrackerSw\Weather\Exceptions\InvalidArgumentException;
-use CrackerSw\Weather\Weather;
+use CrackerSw\Weather\ChinaUmsPay;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
@@ -17,7 +17,7 @@ class WeatherTest extends TestCase
 {
     public function testGetWeatherWithInvalidType()
     {
-        $w = new Weather('mock-key');
+        $w = new ChinaUmsPay('mock-key');
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid type value(base/all): foo');
@@ -29,7 +29,7 @@ class WeatherTest extends TestCase
 
     public function testGetWeatherWithInvalidFormat()
     {
-        $w = new Weather('mock-key');
+        $w = new ChinaUmsPay('mock-key');
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid response format: array');
@@ -53,7 +53,7 @@ class WeatherTest extends TestCase
             ],
         ])->andReturn($response);
 
-        $w = \Mockery::mock(Weather::class, ['mock-key'])->makePartial();
+        $w = \Mockery::mock(ChinaUmsPay::class, ['mock-key'])->makePartial();
         $w->allows()->getHttpClient()->andReturn($client);
 
         $this->assertSame(['success' => true], $w->getWeather('无锡'));
@@ -70,7 +70,7 @@ class WeatherTest extends TestCase
             ],
         ])->andReturn($response);
 
-        $w = \Mockery::mock(Weather::class, ['mock-key'])->makePartial();
+        $w = \Mockery::mock(ChinaUmsPay::class, ['mock-key'])->makePartial();
         $w->allows()->getHttpClient()->andReturn($client);
 
         $this->assertSame('<hello>content</hello>', $w->getWeather('无锡', 'all', 'xml'));
@@ -83,7 +83,7 @@ class WeatherTest extends TestCase
             ->get(new AnyArgs())
             ->andThrow(new \Exception('request timeout'));
 
-        $w = \Mockery::mock(Weather::class, ['mock-key'])->makePartial();
+        $w = \Mockery::mock(ChinaUmsPay::class, ['mock-key'])->makePartial();
         $w->allows()->getHttpClient()->andReturn($client);
 
         $this->expectException(HttpException::class);
@@ -94,7 +94,7 @@ class WeatherTest extends TestCase
 
     public function testGetHttpClient()
     {
-        $w = new Weather('mock-key');
+        $w = new ChinaUmsPay('mock-key');
 
         // 断言返回结果为 GuzzleHttp\ClientInterface 实例
         $this->assertInstanceOf(ClientInterface::class, $w->getHttpClient());
@@ -102,7 +102,7 @@ class WeatherTest extends TestCase
 
     public function testSetGuzzleOptions()
     {
-        $w = new Weather('mock-key');
+        $w = new ChinaUmsPay('mock-key');
 
         // 设置参数前，timeout 为 null
         $this->assertNull($w->getHttpClient()->getConfig('timeout'));
@@ -117,7 +117,7 @@ class WeatherTest extends TestCase
     public function testGetLiveWeather()
     {
         // 将 getWeather 接口模拟为返回固定内容，以测试参数传递是否正确
-        $w = \Mockery::mock(Weather::class, ['mock-key'])->makePartial();
+        $w = \Mockery::mock(ChinaUmsPay::class, ['mock-key'])->makePartial();
         $w->expects()->getWeather('无锡', 'base', 'json')->andReturn(['success' => true]);
 
         // 断言正确传参并返回
@@ -127,7 +127,7 @@ class WeatherTest extends TestCase
     public function testGetForecastsWeather()
     {
         // 将 getWeather 接口模拟为返回固定内容，以测试参数传递是否正确
-        $w = \Mockery::mock(Weather::class, ['mock-key'])->makePartial();
+        $w = \Mockery::mock(ChinaUmsPay::class, ['mock-key'])->makePartial();
         $w->expects()->getWeather('无锡', 'all', 'json')->andReturn(['success' => true]);
 
         // 断言正确传参并返回
